@@ -13,7 +13,7 @@ function authUser(req:Request, res:Response, next:NextFunction) {
             return res.status(403).json({ message:'Token de autorização invalido' })
         }
 
-        req.body.userId = (decoded as JwtPayload).id
+        req.body.secretarioId = (decoded as JwtPayload).secretarioId
         req.body.mainAdmin = (decoded as JwtPayload).mainAdmin
         
         next()

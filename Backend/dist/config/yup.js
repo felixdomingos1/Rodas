@@ -47,24 +47,20 @@ const createAddressSchema = yup.object({
 exports.createAddressSchema = createAddressSchema;
 const createAlunoSchema = yup.object({
     nomeCompleto: yup.string().required(),
+    numeroDeprocesso: yup.string().required(),
     email: yup.string().email(),
-    processo: yup.string().required(),
     BI: yup.string().required(),
     classe: yup.string().required(),
+    curso: yup.string().required(),
     turma: yup.string().required(),
     dataNascimento: yup.string().required(),
-    // addressId: yup.number()
 });
 exports.createAlunoSchema = createAlunoSchema;
 const createPagamentoSchema = yup.object({
-    numeroDeFactura: yup.string().required(),
     formaDePagamento: yup.string().required(),
-    quantidade: yup.number().required(),
+    valor: yup.number().required(),
     mes: yup.string().required(),
+    descontosId: yup.string().required(),
     alunoId: yup.number().required(),
-    secretarioId: yup.number().required(),
-    propinaId: yup.number().required(),
-    multaId: yup.number().required(),
-    descontoId: yup.number().required()
 });
 exports.createPagamentoSchema = createPagamentoSchema;

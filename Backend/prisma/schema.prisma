@@ -14,21 +14,18 @@ datasource db {
 }
 
 model Aluno {
-  id             Int          @id @default(autoincrement())
-  nomeCompleto   String
-  processo       String       @unique
-  classe         String
-  email          String?
-  BI             String       @unique
-  turma          String
-  dataNascimento DateTime
-  address        Address?     @relation(fields: [addressId], references: [id])
-  addressId      Int?         @unique
-  Calendario     Calendario[]
-  Telefone       Telefone[]
-  Pagamento      Pagamento[]
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @default(now()) @updatedAt()
+  id               Int         @id @default(autoincrement())
+  nomeCompleto     String
+  numeroDeprocesso String      @unique
+  classe           String
+  curso            String
+  email            String?
+  BI               String      @unique
+  turma            String
+  dataNascimento   DateTime
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @default(now()) @updatedAt()
+  Pagamento        Pagamento[]
 }
 
 model Secretario {
@@ -37,43 +34,9 @@ model Secretario {
   email        String      @unique
   password     String
   mainAdmin    Boolean
-  address      Address?    @relation(fields: [addressId], references: [id])
-  addressId    Int?        @unique
-  Telefone     Telefone[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now()) @updatedAt()
   Pagamento    Pagamento[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @default(now()) @updatedAt()
-}
-
-model Address {
-  id         Int         @id @default(autoincrement())
-  provincia  String
-  municipio  String
-  bairro     String
-  rua        String
-  Aluno      Aluno?
-  Secretario Secretario?
-}
-
-model Calendario {
-  id        Int      @id @default(autoincrement())
-  mes       String
-  aluno     Aluno    @relation(fields: [alunoId], references: [id])
-  alunoId   Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt()
-}
-
-model Telefone {
-  id           Int         @id @default(autoincrement())
-  numero       String
-  municipio    String
-  aluno        Aluno?      @relation(fields: [alunoId], references: [id])
-  alunoId      Int?
-  secretario   Secretario? @relation(fields: [secretarioId], references: [id])
-  secretarioId Int?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @default(now()) @updatedAt()
 }
 
 enum formaDePagamentoEnum {
@@ -82,47 +45,35 @@ enum formaDePagamentoEnum {
 }
 
 model Pagamento {
-  numeroDeFactura  String               @id @unique
-  formaDePagamento formaDePagamentoEnum
-  quantidade       Int                  @default(1)
-  mes              String
-  aluno            Aluno?               @relation(fields: [alunoId], references: [id])
-  alunoId          Int?
-  secretario       Secretario?          @relation(fields: [secretarioId], references: [id])
-  secretarioId     Int?
-  propina          Propina?             @relation(fields: [propinaId], references: [id])
-  propinaId        Int?
-  multa            Multa?               @relation(fields: [multaId], references: [id])
-  multaId          Int?
-  desconto         Desconto?            @relation(fields: [descontoId], references: [id])
-  descontoId       Int?
-  createdAt        DateTime             @default(now())
-  updatedAt        DateTime             @default(now()) @updatedAt()
-}
-
-model Propina {
-  id        Int         @id @default(autoincrement())
-  descricao String      @unique
-  valor     Int
-  Pagamento Pagamento[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now()) @updatedAt()
-}
-
-model Multa {
-  id        Int         @id @default(autoincrement())
-  descricao String      @unique
-  valor     Int
-  Pagamento Pagamento[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now()) @updatedAt()
+  id                 Int                  @id @default(autoincrement())
+  numeroDeFactura    String               
+  formaDePagamento   formaDePagamentoEnum
+  mes                String
+  valor              Int
+  aluno              Aluno                @relation(fields: [alunoId], references: [id])
+  alunoId            Int
+  secretario         Secretario           @relation(fields: [secretarioId], references: [id])
+  secretarioId       Int
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @default(now()) @updatedAt()
+  DescontoEfectuados DescontoEfectuados[]
 }
 
 model Desconto {
-  id        Int         @id @default(autoincrement())
-  descricao String      @unique
-  valor     Int
-  Pagamento Pagamento[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now()) @updatedAt()
+  id                 Int                  @id @default(autoincrement())
+  descricao          String               @unique
+  valor              Int
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @default(now()) @updatedAt()
+  DescontoEfectuados DescontoEfectuados[]
+}
+
+model DescontoEfectuados {
+  pagamento       Pagamento @relation(fields: [pagamentoId], references: [id])
+  pagamentoId     Int
+  desconto        Desconto  @relation(fields: [descontoId], references: [id])
+  descontoId      Int
+  numeroDeFactura String    
+
+  @@id([pagamentoId, descontoId])
 }

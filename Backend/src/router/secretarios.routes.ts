@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { createSecretario } from "../module/secretario/useCases/create/index";
 import { getSecretario } from "../module/secretario/useCases/get";
 import { authSecretario } from "../module/secretario/useCases/auth";
+// import { authSecretario } from "../module/secretario/useCases/auth";
 
 const secretarioRouter = Router()
 

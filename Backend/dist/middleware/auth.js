@@ -15,7 +15,7 @@ function authUser(req, res, next) {
         if (err) {
             return res.status(403).json({ message: 'Token de autorização invalido' });
         }
-        req.body.userId = decoded.id;
+        req.body.secretarioId = decoded.secretarioId;
         req.body.mainAdmin = decoded.mainAdmin;
         next();
     });

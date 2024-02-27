@@ -14,7 +14,7 @@ class CreateAlunoController {
 
             const Aluno = await this.createAlunoUseCase.execute(data)
 
-            res.status(201).json(Aluno)
+            return res.status(201).json(Aluno)
         } catch (error: any) {
             return res.status(400).json({ message: error.message })
         }

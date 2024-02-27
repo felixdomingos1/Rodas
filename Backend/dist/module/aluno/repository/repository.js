@@ -15,8 +15,8 @@ class AlunoRepository {
     async findByBInumber(BI) {
         return await prisma_1.prisma.aluno.findUnique({ where: { BI } });
     }
-    async update({ id, ...data }) {
-        await prisma_1.prisma.aluno.update({ where: { id }, data });
+    async update({ BI, ...data }) {
+        await prisma_1.prisma.aluno.update({ where: { BI }, data });
         return true;
     }
     async delete(id) {

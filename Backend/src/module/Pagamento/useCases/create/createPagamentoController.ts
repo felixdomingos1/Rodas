@@ -6,15 +6,15 @@ class CreatePagamentoController {
     constructor(private createPagamentoUseCase: CreatePagamentoUseCase ) { }
 
     async handle(req: Request, res: Response ) {
-        const data = req.body
+        const {mainAdmin, ...data} = req.body
 
         try {
-            // await createPagamentoSchema.validate(data)
+            await createPagamentoSchema.validate(data)
 
             
             
             
-
+            
             const Pagamento = await this.createPagamentoUseCase.execute(data)
     
             

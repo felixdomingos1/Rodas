@@ -5,9 +5,9 @@ interface payLoadDto {
     email: string,
     mainAdmin: boolean
 }
-function payLoadGenerator({ email, mainAdmin, id:userId }: payLoadDto) {
+function payLoadGenerator({ email, mainAdmin, id: secretarioId }: payLoadDto) {
     return JWT.sign(
-        { email, mainAdmin, userId },
+        { email, mainAdmin,  secretarioId },
         process.env.KEY!,
         { expiresIn: '3d' }
     )

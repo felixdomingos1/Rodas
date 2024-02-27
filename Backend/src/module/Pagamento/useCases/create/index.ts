@@ -1,12 +1,12 @@
 import { PagamentoRepository } from "../../repository/repository"
 import { CreatePagamentoUseCase } from "./createPagamentoUseCase"
 import { CreatePagamentoController } from "./createPagamentoController"
-import { CalendarioRepository } from "../../../calendario/repository/repository"
+import { DescontoEfectuadosRepository } from "../../../DescontoEfectuados/repository/repository"
 
 
 const pagamentoRepository = new PagamentoRepository()
-const calendarioRepository = new CalendarioRepository()
-const createPagamentoUseCase = new CreatePagamentoUseCase(pagamentoRepository,calendarioRepository)
+const descontoEfectuadosRepository = new  DescontoEfectuadosRepository()
+const createPagamentoUseCase = new CreatePagamentoUseCase(pagamentoRepository,descontoEfectuadosRepository)
 const createPagamento = new CreatePagamentoController(createPagamentoUseCase)
 
 export { createPagamento }

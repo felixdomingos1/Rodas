@@ -9,7 +9,7 @@ class GetSecretarioController {
         const { id } = req.params;
         try {
             const Secretario = await this.getSecretarioUseCase.execute(Number(id));
-            res.status(201).json({ Secretario });
+            res.status(201).json(Secretario);
         }
         catch (error) {
             return res.status(400).json({ message: error.message });

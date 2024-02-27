@@ -2,24 +2,49 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PagamentoRepository = void 0;
 const prisma_1 = require("../../../config/prisma");
+// interface createFact extends Pagamento {
+//      numeroDeFactura: string
+// }
 class PagamentoRepository {
     async create(data) {
         return await prisma_1.prisma.pagamento.create({ data });
     }
     async get(numeroDeFactura) {
-        if (!numeroDeFactura) {
-            return await prisma_1.prisma.pagamento.findMany();
+        let resp = await prisma_1.prisma.pagamento.findFirst({
+            where: { numeroDeFactura },
+            include: {
+                DescontoEfectuados: {
+                    include: {
+                        desconto: true
+                    }
+                },
+                aluno: true,
+                secretario: true
+            }
+        });
+        if (!resp) {
+            return await prisma_1.prisma.pagamento.findMany({
+                include: {
+                    DescontoEfectuados: {
+                        include: {
+                            desconto: true
+                        }
+                    },
+                    aluno: true,
+                    secretario: true,
+                }
+            });
         }
-        return await prisma_1.prisma.pagamento.findFirst({ where: { numeroDeFactura } });
+        return resp;
     }
-    async update({ numeroDeFactura, ...data }) {
-        await prisma_1.prisma.pagamento.update({ where: { numeroDeFactura }, data });
-        return true;
-    }
-    async delete(numeroDeFactura) {
-        await prisma_1.prisma.pagamento.delete({ where: { numeroDeFactura } });
-        return true;
-    }
+    // async update({ id, ...data }: updatePagamentoDto): Promise<Boolean> {
+    //     await prisma.pagamento.update({ where: { id }, data })
+    //     return true
+    // }
+    // async delete(numeroDeFactura: string): Promise<Boolean> {
+    //     await prisma.pagamento.delete({ where: { numeroDeFactura } })
+    //     return true
+    // }
     async getByYear(year) {
         return await prisma_1.prisma.pagamento.findMany({
             where: {
