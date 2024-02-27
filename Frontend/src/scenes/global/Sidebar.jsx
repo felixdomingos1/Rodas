@@ -35,7 +35,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ secretarioData }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -107,7 +107,8 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  João Meti
+                  {/* João Meti */}
+                  {secretarioData.nomeCompleto}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Secretário

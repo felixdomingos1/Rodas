@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const StyledContainer = styled(Container)`
   background-color: #2F4F4F;
@@ -31,7 +34,11 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-const LoginForm = ({ onLogin }) => {
+
+// Estilos dos componentes omitidos para brevidade...
+
+const LoginForm = ({ setIsAuthenticated }) => {
+  const navigate = useNavigate(); // Usando useNavigate para obter a função de navegação
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -42,12 +49,16 @@ const LoginForm = ({ onLogin }) => {
     setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (loginData.email && loginData.password) {
-      onLogin(loginData);
-    } else {
-      alert('Por favor, preencha todos os campos.');
+    try {
+      const response = await axios.post('http://localhost:3334/secretario/auth/', loginData);
+      const secretarioId = response.data.secretarioId; 
+      setIsAuthenticated(true);
+      navigate(`/dashboard/${secretarioId}`);
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      alert('Erro ao fazer login. Verifique suas credenciais.');
     }
   };
 
