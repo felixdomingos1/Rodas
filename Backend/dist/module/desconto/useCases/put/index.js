@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PutDesconto = void 0;
+const repository_1 = require("../../repository/repository");
+const putDescontoController_1 = require("./putDescontoController");
+const putPropinaUseCase_1 = require("./putPropinaUseCase");
+const descontoRepository = new repository_1.DescontoRepository();
+const putDescontoUseCase = new putPropinaUseCase_1.PutDescontoUseCase(descontoRepository);
+const PutDesconto = new putDescontoController_1.PutDescontoController(putDescontoUseCase);
+exports.PutDesconto = PutDesconto;

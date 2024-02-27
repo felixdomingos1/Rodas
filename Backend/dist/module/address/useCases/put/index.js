@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PutAddress = void 0;
+const repository_1 = require("../../repository/repository");
+const putAddressUseCase_1 = require("./putAddressUseCase");
+const putAddressController_1 = require("./putAddressController");
+const addressRepository = new repository_1.AddressRepository();
+const putAddressUseCase = new putAddressUseCase_1.PutAddressUseCase(addressRepository);
+const PutAddress = new putAddressController_1.PutAddressController(putAddressUseCase);
+exports.PutAddress = PutAddress;

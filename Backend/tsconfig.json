@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",                          /* Versão do ECMAScript alvo */
+    "module": "CommonJS",                         /* Sistema de módulos a ser utilizado (ex: CommonJS, ES6, etc.) */
+    "outDir": "./dist",                           /* Diretório de saída para arquivos transpilados */
+    "strict": true,                               /* Habilitar checagem estrita de tipos */
+    "esModuleInterop": true,                      /* Habilitar interoperabilidade entre módulos ES6 e CommonJS */
+    "forceConsistentCasingInFileNames": true,     /* Garantir consistência de caixa em nomes de arquivos */
+    "moduleResolution": "node",                   /* Método de resolução de módulos (ex: node, classic) */
+    "resolveJsonModule": true,                    /* Habilitar importação de arquivos JSON como módulos */
+    "baseUrl": "./src",                           /* Base de resolução de módulos */
+    "paths": {
+      "*": ["*", "src/*"]                         /* Mapeamento de caminhos para resolução de módulos */
+    },
+    "strictPropertyInitialization": false         /* Desabilitar inicialização estrita de propriedades */
+  },
+  "include": ["src/**/*.ts"],                     /* Arquivos a serem incluídos na compilação */
+  "exclude": ["node_modules", "dist"]             /* Diretórios/arquivos a serem excluídos da compilação */
+}

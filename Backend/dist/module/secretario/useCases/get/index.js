@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSecretario = void 0;
+const repository_1 = require("../../repository/repository");
+const getSecretarioController_1 = require("./getSecretarioController");
+const getSecretarioUseCase_1 = require("./getSecretarioUseCase");
+const secretarioRepository = new repository_1.SecretarioRepository();
+const getSecretarioUseCase = new getSecretarioUseCase_1.GetSecretarioUseCase(secretarioRepository);
+const getSecretario = new getSecretarioController_1.GetSecretarioController(getSecretarioUseCase);
+exports.getSecretario = getSecretario;

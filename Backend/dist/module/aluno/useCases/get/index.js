@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAluno = void 0;
+const repository_1 = require("../../repository/repository");
+const getAlunoController_1 = require("./getAlunoController");
+const getAlunoUseCase_1 = require("./getAlunoUseCase");
+const alunoRepository = new repository_1.AlunoRepository();
+const getAlunoUseCase = new getAlunoUseCase_1.GetAlunoUseCase(alunoRepository);
+const getAluno = new getAlunoController_1.GetAlunoController(getAlunoUseCase);
+exports.getAluno = getAluno;

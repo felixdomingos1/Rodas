@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPropina = void 0;
+const repository_1 = require("../../repository/repository");
+const getPropinaUseCase_1 = require("./getPropinaUseCase");
+const getPropinaController_1 = require("./getPropinaController");
+const propinaRepository = new repository_1.PropinaRepository();
+const getPropinaUseCase = new getPropinaUseCase_1.GetPropinaUseCase(propinaRepository);
+const getPropina = new getPropinaController_1.GetPropinaController(getPropinaUseCase);
+exports.getPropina = getPropina;

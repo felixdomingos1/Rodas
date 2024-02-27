@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getDesconto = void 0;
+const repository_1 = require("../../repository/repository");
+const getDescontoUseCase_1 = require("./getDescontoUseCase");
+const getDescontoController_1 = require("./getDescontoController");
+const descontoRepository = new repository_1.DescontoRepository();
+const getDescontoUseCase = new getDescontoUseCase_1.GetDescontoUseCase(descontoRepository);
+const getDesconto = new getDescontoController_1.GetDescontoController(getDescontoUseCase);
+exports.getDesconto = getDesconto;

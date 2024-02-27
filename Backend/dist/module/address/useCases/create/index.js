@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createAddress = void 0;
+const repository_1 = require("../../repository/repository");
+const createAddressUseCase_1 = require("./createAddressUseCase");
+const createAddressController_1 = require("./createAddressController");
+const addressRepository = new repository_1.AddressRepository();
+const createAddressUseCase = new createAddressUseCase_1.CreateAddressUseCase(addressRepository);
+const createAddress = new createAddressController_1.CreateAddressController(createAddressUseCase);
+exports.createAddress = createAddress;

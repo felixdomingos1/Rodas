@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getMulta = void 0;
+const repository_1 = require("../../repository/repository");
+const getMultaUseCase_1 = require("./getMultaUseCase");
+const getMultaController_1 = require("./getMultaController");
+const multaRepository = new repository_1.MultaRepository();
+const getMultaUseCase = new getMultaUseCase_1.GetMultaUseCase(multaRepository);
+const getMulta = new getMultaController_1.GetMultaController(getMultaUseCase);
+exports.getMulta = getMulta;

@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Aluno {
+  id             Int          @id @default(autoincrement())
+  nomeCompleto   String
+  processo       String       @unique
+  classe         String
+  email          String?
+  BI             String       @unique
+  turma          String
+  dataNascimento DateTime
+  address        Address?     @relation(fields: [addressId], references: [id])
+  addressId      Int?         @unique
+  Calendario     Calendario[]
+  Telefone       Telefone[]
+  Pagamento      Pagamento[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt()
+}
+
+model Secretario {
+  id           Int         @id @default(autoincrement())
+  nomeCompleto String
+  email        String      @unique
+  password     String
+  mainAdmin    Boolean
+  address      Address?    @relation(fields: [addressId], references: [id])
+  addressId    Int?        @unique
+  Telefone     Telefone[]
+  Pagamento    Pagamento[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now()) @updatedAt()
+}
+
+model Address {
+  id         Int         @id @default(autoincrement())
+  provincia  String
+  municipio  String
+  bairro     String
+  rua        String
+  Aluno      Aluno?
+  Secretario Secretario?
+}
+
+model Calendario {
+  id        Int      @id @default(autoincrement())
+  mes       String
+  aluno     Aluno    @relation(fields: [alunoId], references: [id])
+  alunoId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt()
+}
+
+model Telefone {
+  id           Int         @id @default(autoincrement())
+  numero       String
+  municipio    String
+  aluno        Aluno?      @relation(fields: [alunoId], references: [id])
+  alunoId      Int?
+  secretario   Secretario? @relation(fields: [secretarioId], references: [id])
+  secretarioId Int?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now()) @updatedAt()
+}
+
+enum formaDePagamentoEnum {
+  multicaixa
+  deposito
+}
+
+model Pagamento {
+  numeroDeFactura  String               @id @unique
+  formaDePagamento formaDePagamentoEnum
+  quantidade       Int                  @default(1)
+  currentYear      Int
+  mes              String
+  aluno            Aluno?               @relation(fields: [alunoId], references: [id])
+  alunoId          Int?
+  secretario       Secretario?          @relation(fields: [secretarioId], references: [id])
+  secretarioId     Int?
+  propina          Propina?             @relation(fields: [propinaId], references: [id])
+  propinaId        Int?
+  multa            Multa?               @relation(fields: [multaId], references: [id])
+  multaId          Int?
+  desconto         Desconto?            @relation(fields: [descontoId], references: [id])
+  descontoId       Int?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @default(now()) @updatedAt()
+}
+
+model Propina {
+  id        Int         @id @default(autoincrement())
+  descricao String      @unique
+  valor     Int
+  Pagamento Pagamento[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt()
+}
+
+model Multa {
+  id        Int         @id @default(autoincrement())
+  descricao String      @unique
+  valor     Int
+  Pagamento Pagamento[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt()
+}
+
+model Desconto {
+  id        Int         @id @default(autoincrement())
+  descricao String      @unique
+  valor     Int
+  Pagamento Pagamento[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt()
+}

@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPagamento = void 0;
+const repository_1 = require("../../repository/repository");
+const getPagamentoController_1 = require("./getPagamentoController");
+const getPagamentoUseCase_1 = require("./getPagamentoUseCase");
+const pagamentoRepository = new repository_1.PagamentoRepository();
+const getPagamentoUseCase = new getPagamentoUseCase_1.GetPagamentoUseCase(pagamentoRepository);
+const getPagamento = new getPagamentoController_1.GetPagamentoController(getPagamentoUseCase);
+exports.getPagamento = getPagamento;

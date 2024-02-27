@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCalendario = void 0;
+const repository_1 = require("../../repository/repository");
+const getCalendarioController_1 = require("./getCalendarioController");
+const getCalendarioUseCase_1 = require("./getCalendarioUseCase");
+const calendarioRepository = new repository_1.CalendarioRepository();
+const getCalendarioUseCase = new getCalendarioUseCase_1.GetCalendarioUseCase(calendarioRepository);
+const getCalendario = new getCalendarioController_1.GetCalendarioController(getCalendarioUseCase);
+exports.getCalendario = getCalendario;
