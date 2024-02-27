@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
@@ -20,7 +20,7 @@ import LoginForm from "./scenes/Login";
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -41,7 +41,7 @@ function App() {
                 <main className="content">
                     <Topbar setIsSidebar={setIsSidebar} />
                     <Routes>
-                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/team" element={<Team />} />
                         <Route path="/cadastramentos-de-usuario" element={<Contacts />} />
                         <Route path="/invoices" element={<Invoices />} />
@@ -52,6 +52,10 @@ function App() {
                         <Route path="/faq" element={<FAQ />} />
                         <Route path="/calendar" element={<Calendar />} />
                         <Route path="/geography" element={<Geography />} />
+                        <Route
+                          path="*"
+                          element={<Navigate to="/dashboard" replace />}
+                        />
                     </Routes>
                 </main>
             </>
