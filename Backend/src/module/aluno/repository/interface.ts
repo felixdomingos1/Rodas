@@ -10,14 +10,14 @@ interface createAlunoDto {
 }
 
 interface updateAlunoDto {
-    id: number;
-    nomeCompleto: string;
-    processo: string;
-    classe: string;
+    id?: number;
+    nomeCompleto?: string;
+    processo?: string;
+    classe?: string;
     BI: string;
-    turma: string;
-    dataNascimento: Date;
-    addressId: number | null;
+    turma?: string;
+    dataNascimento?: Date;
+    addressId?: number | null;
 }
 
 

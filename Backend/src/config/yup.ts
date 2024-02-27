@@ -28,7 +28,7 @@ const createAlunoSchema = yup.object({
     classe: yup.string().required(),
     turma: yup.string().required(),
     dataNascimento: yup.string().required(),
-    // addressId: yup.number()
+    addressId: yup.number()
 })
 
 const createPagamentoSchema = yup.object({

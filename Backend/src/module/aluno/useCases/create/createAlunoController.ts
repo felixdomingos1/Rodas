@@ -3,9 +3,9 @@ import { createAlunoSchema } from "../../../../config/yup";
 import { CreateAlunoUseCase } from "./createAlunoUseCase";
 
 class CreateAlunoController {
-    constructor(private createAlunoUseCase: CreateAlunoUseCase ) { }
+    constructor(private createAlunoUseCase: CreateAlunoUseCase) { }
 
-    async handle(req: Request, res: Response ) {
+    async handle(req: Request, res: Response) {
         const data = req.body
 
         try {
@@ -13,12 +13,10 @@ class CreateAlunoController {
 
 
             const Aluno = await this.createAlunoUseCase.execute(data)
-    
-            res.status(201).json(
-                Aluno
-            )
+
+            res.status(201).json(Aluno)
         } catch (error: any) {
-            return res.status(400).json({message: error.message})
+            return res.status(400).json({ message: error.message })
         }
     }
 }

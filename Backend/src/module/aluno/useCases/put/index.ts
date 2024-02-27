@@ -1,10 +1,10 @@
 import { AlunoRepository } from "../../repository/repository"
-import { CreateAlunoController } from "./putAlunoController"
-import { CreateAlunoUseCase } from "./putAlunoUseCase"
+import { PutAlunoController } from "./putAlunoController"
+import { PutAlunoUseCase } from "./putAlunoUseCase"
 
 
 const alunoRepository = new AlunoRepository()
-const createAlunoUseCase = new CreateAlunoUseCase(alunoRepository)
-const createAluno = new CreateAlunoController(createAlunoUseCase)
+const putAlunoUseCase = new PutAlunoUseCase(alunoRepository)
+const PutAluno = new PutAlunoController(putAlunoUseCase)
 
-export { createAluno }
+export { PutAluno }

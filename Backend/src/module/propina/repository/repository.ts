@@ -15,8 +15,8 @@ class PropinaRepository implements PropinarepositoryDto {
         return await prisma.propina.findFirst({ where: { id } })
     }
 
-    async update({ id, userId,...data}: updatePropinaDto): Promise<Boolean > {
-        await prisma.propina.update({ where: { id  }, data })
+    async update({ id,...data}: updatePropinaDto): Promise<Boolean > {
+        await prisma.propina.update({ where: { id:Number(id)  }, data })
         return true
 
     }

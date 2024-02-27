@@ -85,7 +85,6 @@ model Pagamento {
   numeroDeFactura  String               @id @unique
   formaDePagamento formaDePagamentoEnum
   quantidade       Int                  @default(1)
-  currentYear      Int
   mes              String
   aluno            Aluno?               @relation(fields: [alunoId], references: [id])
   alunoId          Int?

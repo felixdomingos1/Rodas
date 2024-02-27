@@ -12,9 +12,7 @@ class GetAlunoController {
 
             const Aluno = await this.getAlunoUseCase.execute(Number(id))
     
-            res.status(201).json(
-                Aluno
-            )
+            res.status(201).json(Aluno)
         } catch (error: any) {
             return res.status(400).json({message: error.message})
         }

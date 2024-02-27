@@ -18,4 +18,5 @@ pagamentoRouter.get('/get/:numeroDeFactura', async (req:Request, res:Response) =
 pagamentoRouter.put('/put/:id', authUser, async (req:Request, res:Response) => {
     return await PutPagamento.handle(req,res)
 })
+
 export { pagamentoRouter }

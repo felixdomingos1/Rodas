@@ -17,7 +17,16 @@ class PagamentoRepository implements PagamentorepositoryDto {
         if (!numeroDeFactura) {
             return await prisma.pagamento.findMany()
         }
-        return await prisma.pagamento.findFirst({ where: { numeroDeFactura } })
+        return await prisma.pagamento.findFirst({
+             where: { numeroDeFactura },
+             include: {
+                aluno: true,
+                desconto: true,
+                multa: true,
+                propina:true,
+                secretario:true
+             }
+         })
     }
 
     async update({ numeroDeFactura, ...data }: updatePagamentoDto): Promise<Boolean> {
