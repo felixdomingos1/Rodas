@@ -13,11 +13,16 @@ class CreatePagamentoUseCase {
     async execute({mes, ...data}: createPagamentoDto) {
 
         try {
+            // const numeroDeFactura = geraNumeroDeFactura()
+            // numeroDeFactura
             const mesesPagos = mes.split(',')
             const currentYear = new Date().getFullYear()
+
             const pagamenntos = await this.pagamentoRepository.getByYear(currentYear)
+            
             if (!pagamenntos.length) {
                 const numeroDeFactura = 1 + '.' + geraNumeroDeFactura()
+
                 const novaFactura =  await this.pagamentoRepository.create({ numeroDeFactura,mes, ...data })
                 
                 for (const mes of mesesPagos) {

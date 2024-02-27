@@ -7,8 +7,14 @@ class CreatePagamentoController {
 
     async handle(req: Request, res: Response ) {
         const data = req.body
+
         try {
             // await createPagamentoSchema.validate(data)
+
+            
+            
+            
+
             const Pagamento = await this.createPagamentoUseCase.execute(data)
     
             

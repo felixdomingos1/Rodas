@@ -17,8 +17,8 @@ class AlunoRepository implements AlunorepositoryDto {
     async findByBInumber(BI: string) {
         return await prisma.aluno.findUnique({ where : { BI }})
     }
-    async update({ id, ...data}: updateAlunoDto): Promise<Boolean > {
-        await prisma.aluno.update({ where: { id  }, data })
+    async update({ BI, ...data}: updateAlunoDto): Promise<Boolean > {
+        await prisma.aluno.update({ where: { BI  }, data })
         return true
 
     }

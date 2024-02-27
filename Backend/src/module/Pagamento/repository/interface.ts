@@ -2,7 +2,6 @@ import { Pagamento } from '@prisma/client'
 interface createPagamentoDto {
     quantidade: number;
     formaDePagamento: "multicaixa" | "deposito";
-    currentYear: number;
     mes: string;
     alunoId: number;
     secretarioId: number | null;

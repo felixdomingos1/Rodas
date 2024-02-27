@@ -1,0 +1,5 @@
+1-[✔]-Logar com secretarios
+2-[]-Lista de pessas que pagaram 
+3-[]-Lista de devedores 
+4-[]-Lista de todos os alunos 
+5-[] - CRUD nas tabelas

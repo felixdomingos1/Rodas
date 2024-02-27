@@ -8,7 +8,6 @@ interface updatePropinaDto {
     id: number;
     descricao: string;
     valor: number;
-    userId?: number
 }
 
 

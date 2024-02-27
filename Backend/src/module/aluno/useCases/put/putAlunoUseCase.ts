@@ -1,19 +1,24 @@
+import { updateAlunoDto } from "module/aluno/repository/interface";
 import { ServerError } from "../../../../error/index";
-import { createAlunoDto } from "../../repository/interface";
 import { AlunoRepository } from "../../repository/repository";
 
-class CreateAlunoUseCase {
+class PutAlunoUseCase {
     constructor(private alunoRepository: AlunoRepository) { }
 
-    async execute({ BI,dataNascimento, ...data}: createAlunoDto){
+    async execute({ BI,dataNascimento, ...data}: updateAlunoDto){
         const userExist =  await this.alunoRepository.findByBInumber(BI)
 
-        if (userExist) {
-            throw new ServerError('Aluno já existe', 400)
+        if (!userExist) {
+            throw new ServerError('Aluno não existe', 400)
         }
-        dataNascimento  = new Date(dataNascimento)
-        return await this.alunoRepository.create({ BI,dataNascimento, ...data })
+        if (dataNascimento) dataNascimento  = new Date(dataNascimento)
+            
+        try {
+            return await this.alunoRepository.update({ BI,dataNascimento, ...data })
+        } catch (error: any) {
+            throw new ServerError(error.message, 400)
+        }
     }
 }
 
-export { CreateAlunoUseCase }
+export { PutAlunoUseCase }

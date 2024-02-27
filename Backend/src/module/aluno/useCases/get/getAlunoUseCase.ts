@@ -1,5 +1,3 @@
-import { ServerError } from "../../../../error/index";
-// import { GetAlunoDto } from "../../repository/interface";
 import { AlunoRepository } from "../../repository/repository";
 
 class GetAlunoUseCase {
