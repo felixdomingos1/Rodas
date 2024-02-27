@@ -5,6 +5,7 @@ import { Aluno } from "@prisma/client";
 class AlunoRepository implements AlunorepositoryDto {
     async create(data: createAlunoDto): Promise<Aluno> {
         return await prisma.aluno.create({ data })
+
     }
 
     async get(id: number): Promise<Aluno | Aluno[] | null> {

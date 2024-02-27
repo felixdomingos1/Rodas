@@ -1,42 +1,57 @@
 import { prisma } from "../../../config/prisma";
-import { PagamentorepositoryDto, createPagamentoDto, updatePagamentoDto } from "./interface";
+import { PagamentorepositoryDto, createPagamentoDto } from "./interface";
 import { Pagamento } from "@prisma/client";
 
-interface createFact extends createPagamentoDto {
-     numeroDeFactura: string
-}
+// interface createFact extends Pagamento {
+//      numeroDeFactura: string
+// }
 
 
 class PagamentoRepository implements PagamentorepositoryDto {
-    async create(data: createFact): Promise<Pagamento> {
+    async create(data: createPagamentoDto): Promise<Pagamento> {
         return await prisma.pagamento.create({ data })
     }
 
 
     async get(numeroDeFactura: string): Promise<Pagamento | Pagamento[] | null> {
-        if (!numeroDeFactura) {
-            return await prisma.pagamento.findMany()
-        }
-        return await prisma.pagamento.findFirst({
-             where: { numeroDeFactura },
-             include: {
+        let resp = await prisma.pagamento.findFirst({
+            where: { numeroDeFactura },
+            include: {
+                DescontoEfectuados: {
+                    include: {
+                        desconto: true
+                    }
+                },
                 aluno: true,
-                desconto: true,
-                multa: true,
-                propina:true,
-                secretario:true
-             }
-         })
+                secretario: true
+            }
+        })
+
+        if (!resp) {
+            return await prisma.pagamento.findMany({
+                include: {
+                    DescontoEfectuados: {
+                        include: {
+                            desconto: true
+                        }
+                    },
+                    aluno: true,
+                    secretario: true,
+                }
+            })
+        }
+
+        return resp
     }
 
-    async update({ numeroDeFactura, ...data }: updatePagamentoDto): Promise<Boolean> {
-        await prisma.pagamento.update({ where: { numeroDeFactura }, data })
-        return true
-    }
-    async delete(numeroDeFactura: string): Promise<Boolean> {
-        await prisma.pagamento.delete({ where: { numeroDeFactura } })
-        return true
-    }
+    // async update({ id, ...data }: updatePagamentoDto): Promise<Boolean> {
+    //     await prisma.pagamento.update({ where: { id }, data })
+    //     return true
+    // }
+    // async delete(numeroDeFactura: string): Promise<Boolean> {
+    //     await prisma.pagamento.delete({ where: { numeroDeFactura } })
+    //     return true
+    // }
 
     async getByYear(year: number) {
         return await prisma.pagamento.findMany({

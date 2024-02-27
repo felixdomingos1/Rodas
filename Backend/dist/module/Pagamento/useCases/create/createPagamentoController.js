@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePagamentoController = void 0;
+const yup_1 = require("../../../../config/yup");
 class CreatePagamentoController {
     constructor(createPagamentoUseCase) {
         this.createPagamentoUseCase = createPagamentoUseCase;
     }
     async handle(req, res) {
-        const data = req.body;
+        const { mainAdmin, ...data } = req.body;
         try {
-            // await createPagamentoSchema.validate(data)
+            await yup_1.createPagamentoSchema.validate(data);
             const Pagamento = await this.createPagamentoUseCase.execute(data);
             res.status(201).json(Pagamento);
         }

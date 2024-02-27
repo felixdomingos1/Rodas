@@ -1,33 +1,43 @@
-import { CalendarioRepository } from "../../../calendario/repository/repository";
 import { geraNumeroDeFactura } from "../../../../config/geraNumeroDeFactura";
 import { ServerError } from "../../../../error/index";
 import { createPagamentoDto } from "../../repository/interface";
 import { PagamentoRepository } from "../../repository/repository";
+import { DescontoEfectuadosRepository } from "../../../DescontoEfectuados/repository/repository";
 
 class CreatePagamentoUseCase {
     constructor(
         private pagamentoRepository: PagamentoRepository,
-        private calendarioRepository: CalendarioRepository
-        ) { }
+        private descontoEfectuadosRepository: DescontoEfectuadosRepository
+    ) { }
 
-    async execute({mes, ...data}: createPagamentoDto) {
+    async execute({ mes, descontosId, numeroDeFactura, ...data }: createPagamentoDto) {
 
         try {
-            // const numeroDeFactura = geraNumeroDeFactura()
-            // numeroDeFactura
+            numeroDeFactura = geraNumeroDeFactura()
+            const descontosFeitos = descontosId!.split(',')
             const mesesPagos = mes.split(',')
             const currentYear = new Date().getFullYear()
 
             const pagamenntos = await this.pagamentoRepository.getByYear(currentYear)
-            
+
+            let novaFactura;
             if (!pagamenntos.length) {
                 const numeroDeFactura = 1 + '.' + geraNumeroDeFactura()
 
-                const novaFactura =  await this.pagamentoRepository.create({ numeroDeFactura,mes, ...data })
-                
                 for (const mes of mesesPagos) {
-                    await this.calendarioRepository.create({ mes, alunoId: data.alunoId })
+                    let index = 0
+
+                     novaFactura = await this.pagamentoRepository.create({ mes, numeroDeFactura, ...data })
+
+                    await this.descontoEfectuadosRepository.create({
+                        descontoId: Number(descontosFeitos[index]),
+                        numeroDeFactura,
+                        pagamentoId: novaFactura.id
+                    })
+
+                    index++
                 }
+
 
                 return novaFactura
             }
@@ -37,14 +47,24 @@ class CreatePagamentoUseCase {
 
             const novoId = Number(id) + 1
 
-            const numeroDeFactura = novoId + '.' + geraNumeroDeFactura()
-
-            const novaFactura =  await this.pagamentoRepository.create({ numeroDeFactura,mes, ...data })
+             numeroDeFactura = novoId + '.' + geraNumeroDeFactura()
 
 
-            for (const mes of mesesPagos) {
-                await this.calendarioRepository.create({ mes, alunoId: data.alunoId })
+
+             for (const mes of mesesPagos) {
+                let index = 0
+
+                 novaFactura = await this.pagamentoRepository.create({ mes, numeroDeFactura, ...data })
+
+                await this.descontoEfectuadosRepository.create({
+                    descontoId: Number(descontosFeitos[index]),
+                    numeroDeFactura,
+                    pagamentoId: novaFactura.id
+                })
+
+                index++
             }
+
 
             return novaFactura
 

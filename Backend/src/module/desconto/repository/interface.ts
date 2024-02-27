@@ -6,8 +6,8 @@ interface createDescontoDto {
 
 interface updateDescontoDto {
     id: number;
-    descricao: string;
-    valor: number;
+    descricao?: string;
+    valor?: number;
 }
 
 

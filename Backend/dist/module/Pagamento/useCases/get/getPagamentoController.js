@@ -6,10 +6,12 @@ class GetPagamentoController {
         this.getPagamentoUseCase = getPagamentoUseCase;
     }
     async handle(req, res) {
-        const { numeroDeFactura } = req.params;
+        const { numeroDeFactura } = req.query;
         try {
-            const Pagamento = await this.getPagamentoUseCase.execute(numeroDeFactura);
-            res.status(201).json(Pagamento);
+            if (typeof numeroDeFactura === 'string') {
+                const Pagamento = await this.getPagamentoUseCase.execute(numeroDeFactura);
+                res.status(201).json(Pagamento);
+            }
         }
         catch (error) {
             return res.status(400).json({ message: error.message });

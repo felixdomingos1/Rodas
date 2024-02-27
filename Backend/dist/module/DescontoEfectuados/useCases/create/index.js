@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createDescontoEfectuados = void 0;
+const repository_1 = require("../../repository/repository");
+const createDescontoEfectuadosController_1 = require("./createDescontoEfectuadosController");
+const createDescontoEfectuadosUseCase_1 = require("./createDescontoEfectuadosUseCase");
+const descontoEfectuadosRepository = new repository_1.DescontoEfectuadosRepository();
+const createDescontoEfectuadosUseCase = new createDescontoEfectuadosUseCase_1.CreateDescontoEfectuadosUseCase(descontoEfectuadosRepository);
+const createDescontoEfectuados = new createDescontoEfectuadosController_1.CreateDescontoEfectuadosController(createDescontoEfectuadosUseCase);
+exports.createDescontoEfectuados = createDescontoEfectuados;

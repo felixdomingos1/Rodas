@@ -4,30 +4,45 @@ exports.CreatePagamentoUseCase = void 0;
 const geraNumeroDeFactura_1 = require("../../../../config/geraNumeroDeFactura");
 const index_1 = require("../../../../error/index");
 class CreatePagamentoUseCase {
-    constructor(pagamentoRepository, calendarioRepository) {
+    constructor(pagamentoRepository, descontoEfectuadosRepository) {
         this.pagamentoRepository = pagamentoRepository;
-        this.calendarioRepository = calendarioRepository;
+        this.descontoEfectuadosRepository = descontoEfectuadosRepository;
     }
-    async execute({ mes, ...data }) {
+    async execute({ mes, descontosId, numeroDeFactura, ...data }) {
         try {
+            numeroDeFactura = (0, geraNumeroDeFactura_1.geraNumeroDeFactura)();
+            const descontosFeitos = descontosId.split(',');
             const mesesPagos = mes.split(',');
             const currentYear = new Date().getFullYear();
             const pagamenntos = await this.pagamentoRepository.getByYear(currentYear);
+            let novaFactura;
             if (!pagamenntos.length) {
                 const numeroDeFactura = 1 + '.' + (0, geraNumeroDeFactura_1.geraNumeroDeFactura)();
-                const novaFactura = await this.pagamentoRepository.create({ numeroDeFactura, mes, ...data });
                 for (const mes of mesesPagos) {
-                    await this.calendarioRepository.create({ mes, alunoId: data.alunoId });
+                    let index = 0;
+                    novaFactura = await this.pagamentoRepository.create({ mes, numeroDeFactura, ...data });
+                    await this.descontoEfectuadosRepository.create({
+                        descontoId: Number(descontosFeitos[index]),
+                        numeroDeFactura,
+                        pagamentoId: novaFactura.id
+                    });
+                    index++;
                 }
                 return novaFactura;
             }
             const ultimoPagamento = pagamenntos[pagamenntos.length - 1];
             const id = ultimoPagamento['numeroDeFactura'].split('.')[0];
             const novoId = Number(id) + 1;
-            const numeroDeFactura = novoId + '.' + (0, geraNumeroDeFactura_1.geraNumeroDeFactura)();
-            const novaFactura = await this.pagamentoRepository.create({ numeroDeFactura, mes, ...data });
+            numeroDeFactura = novoId + '.' + (0, geraNumeroDeFactura_1.geraNumeroDeFactura)();
             for (const mes of mesesPagos) {
-                await this.calendarioRepository.create({ mes, alunoId: data.alunoId });
+                let index = 0;
+                novaFactura = await this.pagamentoRepository.create({ mes, numeroDeFactura, ...data });
+                await this.descontoEfectuadosRepository.create({
+                    descontoId: Number(descontosFeitos[index]),
+                    numeroDeFactura,
+                    pagamentoId: novaFactura.id
+                });
+                index++;
             }
             return novaFactura;
         }

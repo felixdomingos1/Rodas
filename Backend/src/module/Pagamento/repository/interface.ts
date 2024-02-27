@@ -1,36 +1,41 @@
 import { Pagamento } from '@prisma/client'
 interface createPagamentoDto {
-    quantidade: number;
     formaDePagamento: "multicaixa" | "deposito";
-    mes: string;
+    numeroDeFactura: string;
+    valor: number;
     alunoId: number;
-    secretarioId: number | null;
-    propinaId: number
-    multaId: number
-    descontoId: number
-    createdAt: Date;
-    updatedAt: Date;
+    secretarioId: number;
+    mes: string;
+    descontosId?: string;
 }
+// interface PagamentoDto {
+//     formaDePagamento: "multicaixa" | "deposito";
+//     numeroDeFactura: string;
+//     mes: string;
+//     valor: number;
+//     alunoId: number;
+//     secretarioId: number;
+//     createdAt?: Date;
+//     updatedAt?: Date;
+// }
 
 
 interface updatePagamentoDto {
+    id: number;
     numeroDeFactura: string;
     formaDePagamento: "multicaixa" | "deposito";
-    quantidade: number;
+    valor: string;
     mes: string;
-    alunoId: number | null;
-    secretarioId: number | null;
-    propinaId: number | null;
-    multaId: number | null;
-    descontoId: number | null;
+    alunoId: number;
+    secretarioId: number;
 }
 
 
 interface PagamentorepositoryDto {
     create(data: createPagamentoDto): Promise<Pagamento>
     get(numeroDeFactura: string): Promise<Pagamento | Pagamento[] | null>
-    delete(numeroDeFactura: string): Promise<Boolean>
-    update(data: updatePagamentoDto): Promise<Boolean>
+    // delete(numeroDeFactura: string): Promise<Boolean>
+    // update(data: updatePagamentoDto): Promise<Boolean>
 }
 
 
