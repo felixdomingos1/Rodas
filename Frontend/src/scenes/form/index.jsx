@@ -6,7 +6,7 @@ import axios from 'axios';
 import * as yup from 'yup'
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const Form = ({ alunoData, setAlunoData, mudarUser }) => {
+const Form = ({ alunoData, setAlunoData, mudarUser, newFactura, setnewFactura }) => {
   const [classe, setClasse] = useState('');
   const [valor, setValor] = useState('');
   const [searchBI, setSearchBI] = useState('');
@@ -18,7 +18,6 @@ const navegate = useNavigate()
       // Realizar uma chamada à API para obter os dados do aluno com base no BI
       axios.get(`http://localhost:3334/aluno/filter/${searchBI}`)
         .then(response => {
-          console.log(response.data);
           if (response.data) {
             setAlunoData(response.data);
           }
@@ -32,14 +31,19 @@ const navegate = useNavigate()
     }
   }, [searchBI]);
 
+  let data ;
   const handleChangeClasse = (event) => {
     // const selectedClasse = event.target.value;
     // setClasse(selectedClasse);
+    if (!data) {
+      data = alunoData
+    }
     const { name , value } = event.target
-    const data = alunoData
     data[name] = value
     setAlunoData(data)
-    // mudarUser()
+
+    // alert(name)
+    // // mudarUser()
     
     // setAlunoData(prev=> name ...prev)
     // Atualizar o valor com base na classe selecionada
@@ -56,15 +60,27 @@ const navegate = useNavigate()
   };
 
   const handleFormSubmit = (values) => {
-    navegate('/gerando-fatura')
     
-    // axios.post('http://localhost:3334/pagamentos/create', values)
-    //   .then(response => {
-    //     console.log('Pagamento criado com sucesso:', response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Erro ao criar pagamento:', error);
-    //   });
+    const {formaDePagamento, mes, id:alunoId,valor } = alunoData;
+    const dataTosave = {formaDePagamento, mes, alunoId,valor,descontosId: "1"}
+
+    const { token } = JSON.parse(localStorage.getItem('currentUser'))
+    axios.post('http://localhost:3334/pagamento/create', dataTosave,{
+      headers: {
+        'Authorization': `Bearer ${token}`, // Token de autorização
+        'Content-Type': 'application/json', // Tipo de conteúdo
+      }
+    })
+    .then(response => {
+      setnewFactura(response.data)
+      console.log('Pagamento criado com sucesso:', response.data);
+    })
+    .catch(error => {
+      console.error('Erro ao criar pagamento:', error);
+       alert(error.message)
+
+    });
+    navegate('/gerando-fatura')
   };
 
   return (
@@ -119,7 +135,7 @@ const navegate = useNavigate()
                 fullWidth
                 variant="filled"
                 type="number"
-                label="Quantidade de Meses"
+                label="Quantidade de mes"
                 name="Quantidade"
               />
               <Field
@@ -128,8 +144,9 @@ const navegate = useNavigate()
                 value={alunoData.valor}
                 variant="filled"
                 label="Valores a Pagar"
-                name="valoresDoPagamento"
+                name="valor"
                 onChange={handleChangeClasse}
+                // onChange={handleChangeClasse}
               >
                 <MenuItem value={25000} >25.000 Kzs</MenuItem>
                 <MenuItem value={34000}>34.000 Kzs</MenuItem>
@@ -148,9 +165,9 @@ const navegate = useNavigate()
                 value={alunoData.mes}
                 fullWidth
                 variant="filled"
-                label="Meses" 
+                label="mes" 
                 onChange={handleChangeClasse}
-                name="meses"
+                name="mes"
               >
               <MenuItem value="Janeiro">Janeiro</MenuItem>
               <MenuItem value="Fevereiro">Fevereiro</MenuItem>
@@ -171,7 +188,7 @@ const navegate = useNavigate()
                 fullWidth
                 variant="filled"
                 label="Forma de Pagamento"
-                name="FormaDePagamento" 
+                name="formaDePagamento" 
                 onChange={handleChangeClasse}
                 value={alunoData.formaDePagamento}
               >
@@ -180,7 +197,8 @@ const navegate = useNavigate()
               </Field>
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained" onClick={handleFormSubmit}>
+              <Button 
+              type="submit" color="secondary" variant="contained" onClick={handleFormSubmit}>
                 Criar Fatura
               </Button>
             </Box>

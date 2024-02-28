@@ -47,11 +47,11 @@ const LoginForm = ({ logarSecretario }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Login feito com sucesso ')
     if (loginData.email && loginData.password) {
       axios.post(`http://localhost:3334/secretario/auth`, loginData)
       .then(response => {
         logarSecretario(response.data); 
+        alert('Login feito com sucesso ')
       })
       .catch(error => {
         console.error('Erro ao obter dados do aluno:', error);

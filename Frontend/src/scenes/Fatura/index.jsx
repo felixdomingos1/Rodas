@@ -1,11 +1,26 @@
 import React from "react";
 import { Box } from "@mui/material";
 import './index.css'
-const Fatura = ({ alunoData, setAlunoData }) => {
+import generatePDF, { Margin } from 'react-to-pdf'
+const personalizacao = {
+    method: 'open',
+    page: {
+        margin: Margin.MEDIUM,
+        format: 'A4',
+        orientation:'portrait'
+
+    }
+}
+const recupeparConteudoParaPDF = () => document.getElementById('conteudo')
+const Fatura = ({ alunoData, setAlunoData,setnewFactura, newFactura }) => {
     console.log(alunoData);
+
   return (
-    <Box m="20px">
-        <div className="container">
+    <Box m="20px" >
+        <button onClick={()=> generatePDF(recupeparConteudoParaPDF, personalizacao)}>
+            GERAR PDF
+        </button>
+        <div className="container" id="conteudo">
             <div className="top">
                 <div className="leftTop">
                     <div className="header"> 
@@ -57,9 +72,9 @@ const Fatura = ({ alunoData, setAlunoData }) => {
                         <th>Total</th>
                     </tr>
                     <tr>
-                        <td>1</td>
+                        <td>{ newFactura.numeroDeFactura}</td>
                         <td>2.024</td>
-                        <td>Fevereiro</td>
+                        <td>{newFactura.mes}</td>
                         <td>1</td>
                         <td>{ alunoData.valor }</td>
                         <td>0</td>

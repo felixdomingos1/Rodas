@@ -23,6 +23,8 @@ function App() {
     const [isSidebar, setIsSidebar] = useState(true);
     const [isAuthenticated, setisAuthenticated] = useState(false);
     const [currentSecretario, setcurrentSecretario] = useState(false);
+    const [newFactura, setnewFactura] = useState({});
+
     const [alunoData, setAlunoData] = useState({
         "nomeCompleto": "",
         "numeroDeprocesso": "",
@@ -78,7 +80,9 @@ function App() {
                                         element={<Form
                                             alunoData={alunoData}
                                             setAlunoData={setAlunoData}
-                                            mudarUser={mudarUser} />} />
+                                            mudarUser={mudarUser}
+                                            newFactura={newFactura}
+                                             setnewFactura={setnewFactura}  />} />
                                     <Route path="/bar" element={<Bar />} />
                                     <Route path="/pie" element={<Pie />} />
                                     <Route path="/line" element={<Line />} />
@@ -86,7 +90,8 @@ function App() {
                                     <Route path="/calendar" element={<Calendar />} />
                                     <Route path="/geography" element={<Geography />} />
                                     <Route path="/gerando-fatura" element={<Fatura
-                                        alunoData={alunoData} setAlunoData={setAlunoData} />} />
+                                        alunoData={alunoData} setAlunoData={setAlunoData}
+                                        newFactura={newFactura} setnewFactura={setnewFactura} />} />
                                 </Routes>
                             </main>
                         </>
