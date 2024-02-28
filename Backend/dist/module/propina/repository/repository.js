@@ -12,8 +12,8 @@ class PropinaRepository {
         }
         return await prisma_1.prisma.propina.findFirst({ where: { id } });
     }
-    async update({ id, userId, ...data }) {
-        await prisma_1.prisma.propina.update({ where: { id }, data });
+    async update({ id, ...data }) {
+        await prisma_1.prisma.propina.update({ where: { id: Number(id) }, data });
         return true;
     }
     async delete(id) {

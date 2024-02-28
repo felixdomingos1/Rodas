@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const StyledContainer = styled(Container)`
   background-color: #2F4F4F;
@@ -31,12 +33,13 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ logarSecretario }) => {
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
 
+  const navegator = useNavigate()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prevData) => ({ ...prevData, [name]: value }));
@@ -44,8 +47,18 @@ const LoginForm = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    alert('Login feito com sucesso ')
     if (loginData.email && loginData.password) {
-      onLogin(loginData);
+      axios.post(`http://localhost:3334/secretario/auth`, loginData)
+      .then(response => {
+        logarSecretario(response.data); 
+      })
+      .catch(error => {
+        console.error('Erro ao obter dados do aluno:', error);
+        alert(error.message);
+      });
+      
+      navegator('/')
     } else {
       alert('Por favor, preencha todos os campos.');
     }

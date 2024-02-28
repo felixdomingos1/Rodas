@@ -14,6 +14,6 @@ secretarioRouter.post('/create', async (req, res) => {
 secretarioRouter.get('/get/:id', async (req, res) => {
     return await get_1.getSecretario.handle(req, res);
 });
-secretarioRouter.post('/auth/', async (req, res) => {
+secretarioRouter.post('/auth', async (req, res) => {
     return await auth_1.authSecretario.handle(req, res);
 });

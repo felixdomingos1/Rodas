@@ -9,8 +9,18 @@ class AuthSecretarioUseCase {
         this.secretarioRepository = secretarioRepository;
     }
     async execute({ email, password }) {
-        const secretario = await this.secretarioRepository.findByEmail(email);
-        if (!secretario) {
+        const naoTemSecretario = await this.secretarioRepository.get(0);
+        let secretario;
+        if (!naoTemSecretario.length) {
+            secretario = await this.secretarioRepository.create({
+                nomeCompleto: "Joao Meti",
+                email: "f@gmail.com",
+                mainAdmin: true,
+                password: await (0, bcrypt_1.hash)("123456", 8)
+            });
+        }
+        secretario = await this.secretarioRepository.findByEmail(email);
+        if (!secretario["password"]) {
             throw new index_1.ServerError("email or password errado", 401);
         }
         const isEqual = await (0, bcrypt_1.compare)(password, secretario.password);

@@ -11,7 +11,7 @@ class PutPropinaUseCase {
             return await this.propinaRepository.update(data);
         }
         catch (error) {
-            throw new index_1.ServerError("Falha ao criar a propina", 400);
+            throw new index_1.ServerError(error.message, 400);
         }
     }
 }

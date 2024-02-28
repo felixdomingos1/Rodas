@@ -1,18 +1,20 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateAlunoUseCase = void 0;
-const index_1 = require("../../../../error/index");
-class CreateAlunoUseCase {
-    constructor(alunoRepository) {
-        this.alunoRepository = alunoRepository;
-    }
-    async execute({ BI, dataNascimento, ...data }) {
-        const userExist = await this.alunoRepository.findByBInumber(BI);
-        if (userExist) {
-            throw new index_1.ServerError('Aluno já existe', 400);
-        }
-        dataNascimento = new Date(dataNascimento);
-        return await this.alunoRepository.create({ BI, dataNascimento, ...data });
-    }
-}
-exports.CreateAlunoUseCase = CreateAlunoUseCase;
+// import { updateAlunoDto } from "module/aluno/repository/interface";
+// import { ServerError } from "../../../../error/index";
+// import { AlunoRepository } from "../../repository/repository";
+// class PutAlunoUseCase {
+//     constructor(private alunoRepository: AlunoRepository) { }
+//     async execute({ BI,dataNascimento, ...data}: updateAlunoDto){
+//         const userExist =  await this.alunoRepository.findByBInumber(BI)
+//         if (!userExist) {
+//             throw new ServerError('Aluno não existe', 400)
+//         }
+//         if (dataNascimento) dataNascimento  = new Date(dataNascimento)
+//         try {
+//             return await this.alunoRepository.update({ BI,dataNascimento, ...data })
+//         } catch (error: any) {
+//             throw new ServerError(error.message, 400)
+//         }
+//     }
+// }
+// export { PutAlunoUseCase }

@@ -13,7 +13,7 @@ secretarioRouter.post('/create', async (req:Request, res: Response) => {
 secretarioRouter.get('/get/:id', async (req:Request, res: Response) => {
     return await getSecretario.handle(req,res)
 })
-secretarioRouter.post('/auth/', async (req:Request, res: Response) => {
+secretarioRouter.post('/auth', async (req:Request, res: Response) => {
     return await authSecretario.handle(req,res)
 })
 

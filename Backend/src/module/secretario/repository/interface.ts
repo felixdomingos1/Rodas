@@ -4,7 +4,6 @@ interface createSecretarioDto {
     email: string;
     password: string;
     mainAdmin: boolean;
-    addressId: number | null;
 }
 
 interface updateSecretarioDto {

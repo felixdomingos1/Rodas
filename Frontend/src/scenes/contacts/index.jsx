@@ -14,12 +14,12 @@ const Contacts = () => {
   const [formData, setFormData] = useState({
     nomeCompleto: '',
     email:'',
-    processo: '',
+    numeroDeprocesso : '',
     classe: '',
     BI: '',
     turma: '',
     dataNascimento: '',
-    // addressId: null,
+    curso:''
   });
 
   const handleChange = (e) => {
@@ -52,7 +52,7 @@ const Contacts = () => {
       }
     };
     fetchUserData();
-  }, []);
+  }, [userData]);
   console.log(userData);
   // const formattedUserData = userData.map((user, index) => ({ ...user, id: index }))
   const columns = [
@@ -235,10 +235,10 @@ const Contacts = () => {
           }
       }}
       label="Nº de Processo" // Texto da label
-      name="Nº de Processo"
-      value={formData.processo}
-        type="text"
-        onChange={handleChange}
+      name="numeroDeprocesso"
+      value={formData.numeroDeprocesso}
+      type="text"
+      onChange={handleChange}
       required
     />
     <TextField
@@ -256,11 +256,11 @@ const Contacts = () => {
           }
       }}
       label="Email" // Texto da label
-      name="Email"
+      name="email"
       value={formData.email}
       onChange={handleChange}
-        type="email"
-        required
+      type="text"
+      required
     />
     <TextField
     style={{margin:'10px'}}
@@ -297,8 +297,8 @@ const Contacts = () => {
               color: 'black', // Cor da label
           }
       }}
-      label="BI" // Texto da label
-      name="bi"
+      label="Numero do BI" // Texto da label
+      name="BI"
       value={formData.BI}
       onChange={handleChange}
         type="text"
@@ -339,9 +339,29 @@ const Contacts = () => {
               color: 'black', // Cor da label
           }
       }}
-      name="dataDeNascimento"
+      name="dataNascimento"
       value={formData.dataNascimento}
         type="date"
+        onChange={handleChange}
+      required
+    />
+    <TextField
+    style={{margin:'10px'}}
+    InputProps={{
+          style: {
+              color: 'black', // Cor do texto digitado
+              borderBottom: '1px solid black', // Adiciona uma borda embaixo
+          },
+          placeholder: "Curso", // Define o placeholder
+      }}
+      InputLabelProps={{
+          style: {
+              color: 'black', // Cor da label
+          }
+      }}
+      name="curso"
+      value={formData.curso}
+        type="text"
         onChange={handleChange}
       required
     />{/* <TextField
